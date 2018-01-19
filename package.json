@@ -1,0 +1,29 @@
+{
+  "name": "tablecompare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dingyj3178/tablecompare.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dingyj3178/tablecompare/issues"
+  },
+  "homepage": "https://github.com/Dingyj3178/tablecompare#readme",
+  "devDependencies": {
+    "@types/node": "^9.3.0"
+  },
+  "dependencies": {
+    "exceljs": "^0.8.1",
+    "hdb": "^0.15.2",
+    "ssf": "^0.10.1",
+    "xlsx": "^0.11.17",
+    "xlsx-style": "^0.8.13"
+  }
+}
