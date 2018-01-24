@@ -16,7 +16,12 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
     const sheet_hana = book_hana.Sheets[sheetNames_hana[0]];
     const sheet_s4 = book_s4.Sheets[sheetNames_s4[0]];
     const decodeRange_s4 = utils.decode_range(sheet_s4['!ref']);
-    
+    const decodeRange_hana = utils.decode_range(sheet_hana['!ref']);
+    if(decodeRange_hana.e.c - decodeRange_s4.e.c <3){
+        throw '項目数が異なるため、比較ファイルを確認してください';
+    }
+
+
     for(let c_s4 = decodeRange_s4.s.c; c_s4 <= decodeRange_s4.e.c; c_s4++){
         if(sheet_s4[utils.encode_cell({c:c_s4, r:0})].v === sheet_hana[utils.encode_cell({c:c_s4+3, r:0})].v){
             for(let r_s4 = decodeRange_s4.s.r; r_s4 <= decodeRange_s4.e.r; r_s4++){
