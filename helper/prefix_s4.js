@@ -44,9 +44,9 @@ module.exports = (filename_tb,filename_def) =>{
         }
     }
     filename_tb = filename_tb.replace('.XLSX','')+'_prefixed.XLSX';
-    xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4',filename_tb));
+    xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4_prefix',filename_tb));
     function textify (filename_tb){
-        const filePath_tb = path.join(conf.root,'/tables_s4',filename_tb);
+        const filePath_tb = path.join(conf.root,'/tables_s4_prefix',filename_tb);
         const filePath_def = path.join(conf.root,'/tables_def',filename_def);
         const book_s4 = xlsx.readFile(filePath_tb);
         const book_def = xlsx.readFile(filePath_def);
@@ -77,7 +77,7 @@ module.exports = (filename_tb,filename_def) =>{
                 }
             }
         }
-        xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4',filename_tb));
+        xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4_prefix',filename_tb));
     }
     
     return textify(filename_tb);
