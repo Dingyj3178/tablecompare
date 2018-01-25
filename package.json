@@ -20,6 +20,7 @@
     "@types/node": "^9.3.0"
   },
   "dependencies": {
+    "async": "^2.6.0",
     "exceljs": "^0.8.1",
     "hdb": "^0.15.2",
     "ssf": "^0.10.1",
