@@ -6,7 +6,7 @@ const utils = xlsx.utils; // XLSX.utilsのalias
 const conf = require('../config/config');
 
 module.exports = (filename_tb_s4,filename_tb_hana) =>{
-    const filepath_tb_s4 = path.join(conf.root,'/tables_s4',filename_tb_s4);
+    const filepath_tb_s4 = path.join(conf.root,'/tables_s4_prefix',filename_tb_s4);
     const filepath_tb_hana = path.join(conf.root,'/tables_hana',filename_tb_hana);
     const book_s4 = xlsx.readFile(filepath_tb_s4);
     const book_hana = xlsx.readFile(filepath_tb_hana);
