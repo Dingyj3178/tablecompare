@@ -54,10 +54,11 @@ async.series(
             });
             callback(null, null); 
         }
-    ], function (err, results) {
-        // results是返回值的数组
-        console.log('event ' + results[0] + results[1] + ' occurs');
-    }
+    ]
+    // function (err, results) {
+    //     // results是返回值的数组
+    //     console.log('event ' + results[0] + results[1] + ' occurs');
+    // }
 );
 
 // async.series(
