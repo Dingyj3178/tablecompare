@@ -90,19 +90,28 @@ module.exports = (filename_tb,filename_def) =>{
                 }
                 xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4_prefix',filename_tb));
                 callback(null, null); 
+            },
+            //从SAP导出的数据最后一列是group by的结果，需要删除
+            function (callback){
+                const filePath_tb = path.join(conf.root,'/tables_s4_prefix',filename_tb);
+                // const book_s4 = xlsx.readFile(filePath_tb);
+                let book_s4_s = xlsx_style.readFile(filePath_tb,{cellStyles: true,cellDates:true});
+                let sheetNames_s4_s = book_s4_s.SheetNames;
+                let sheet_s4_s = book_s4_s.Sheets[sheetNames_s4_s[0]];
+                let decodeRange_s4_s = utils.decode_range(sheet_s4_s['!ref']);
+                decodeRange_s4_s.e.c = decodeRange_s4_s.e.c -1;
+                let obname = Object.keys(book_s4_s.Sheets['Sheet1']);
+                obname.forEach((obname_test)=>{
+                    if(obname_test.match(/(L)/)) {
+                        delete book_s4_s.Sheets['Sheet1'][obname_test];
+                    }
+                });
+                book_s4_s.Sheets['Sheet1']['!ref'] = utils.encode_range(decodeRange_s4_s);
+                // book_s4_s.Sheets['Sheet1'][utils.decode_range(book_s4_s.Sheets['Sheet1']['!ref'])] = decodeRange_s4;
+                // book_s4_s.Sheets.sheet1.forea = sheet_s4_s;
+                xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4_prefix',filename_tb));
+                callback(null, null); 
             }
-            // function (callback){
-            //     const filePath_tb = path.join(conf.root,'/tables_s4_prefix',filename_tb);
-            //     const book_s4 = xlsx.readFile(filePath_tb);
-            //     const book_s4_s = xlsx_style.readFile(filePath_tb,{cellStyles: true,cellDates:true});
-            //     const sheetNames_s4 = book_s4.SheetNames;
-            //     const sheet_s4 = book_s4.Sheets[sheetNames_s4[0]];
-            //     const decodeRange_s4 = utils.decode_range(sheet_s4['!ref']);
-            //     decodeRange_s4.e.c = decodeRange_s4.e.c -1;
-            //     book_s4_s.Sheets['Sheet1'][utils.decode_range(book_s4_s.Sheets['Sheet1']['!ref'])] = decodeRange_s4;
-            //     xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_s4_prefix',filename_tb));
-            //     callback(null, null); 
-            // }
         ]
         // function (err, results) {
         //     // results是返回值的数组
