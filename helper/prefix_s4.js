@@ -100,12 +100,15 @@ module.exports = (filename_tb,filename_def) =>{
                 let sheet_s4_s = book_s4_s.Sheets[sheetNames_s4_s[0]];
                 let decodeRange_s4_s = utils.decode_range(sheet_s4_s['!ref']);
                 decodeRange_s4_s.e.c = decodeRange_s4_s.e.c -1;
-                let obname = Object.keys(book_s4_s.Sheets['Sheet1']);
-                obname.forEach((obname_test)=>{
-                    if(obname_test.match(/(L)/)) {
-                        delete book_s4_s.Sheets['Sheet1'][obname_test];
-                    }
-                });
+                //本来需要想需要把最后一列的object全部删掉，貌似把范围修改后自动就自动删除了
+                // let obname = Object.keys(book_s4_s.Sheets['Sheet1']);
+                // let last_col = utils.encode_cell({c:decodeRange_s4_s.s.r, r:decodeRange_s4_s.e.c});
+                // let last_col_name = last_col.substring(0,1);
+                // obname.forEach((obname_test)=>{
+                //     if(obname_test.match(/(last_col_name)/)) {
+                //         delete book_s4_s.Sheets['Sheet1'][obname_test];
+                //     }
+                // });
                 book_s4_s.Sheets['Sheet1']['!ref'] = utils.encode_range(decodeRange_s4_s);
                 // book_s4_s.Sheets['Sheet1'][utils.decode_range(book_s4_s.Sheets['Sheet1']['!ref'])] = decodeRange_s4;
                 // book_s4_s.Sheets.sheet1.forea = sheet_s4_s;
