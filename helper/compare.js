@@ -17,6 +17,7 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
     const sheet_s4 = book_s4.Sheets[sheetNames_s4[0]];
     const decodeRange_s4 = utils.decode_range(sheet_s4['!ref']);
     const decodeRange_hana = utils.decode_range(sheet_hana['!ref']);
+    let diff_count = 0;
     if(decodeRange_hana.e.c - decodeRange_s4.e.c <3){
         throw '項目数が異なるため、比較ファイルを確認してください';
     }
@@ -38,11 +39,16 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
                         fgColor: { rgb: 'FF0000' },
                         bgColor: { indexed: 64 } }};
                     book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})] = sheet_s4[utils.encode_cell({c:c_s4, r:r_s4})];
+                    diff_count = diff_count + 1;
                 }    
             }
         }
     }
-    filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result.XLSX';
+    if (diff_count > 0){
+        filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result_NG.XLSX';
+    } else{
+        filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result_OK.XLSX';
+    }
     xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_result',filename_tb_s4));
     return filename_tb_s4;
 };
