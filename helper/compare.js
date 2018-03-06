@@ -18,8 +18,9 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
     const decodeRange_s4 = utils.decode_range(sheet_s4['!ref']);
     const decodeRange_hana = utils.decode_range(sheet_hana['!ref']);
     let diff_count = 0;
-    if(decodeRange_hana.e.c - decodeRange_s4.e.c <3){
-        throw '項目数が異なるため、比較ファイルを確認してください';
+    const column_counter = decodeRange_hana.e.c - decodeRange_s4.e.c;
+    if(column_counter <3){
+        throw filename_tb_s4 + '項目数が異なるため、比較ファイルを確認してください';
     }
 
 
@@ -45,8 +46,10 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
         }
     }
     if (diff_count > 0){
+        console.log(filename_tb_s4 +'に一致しないデータが存在する');
         filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result_NG.XLSX';
     } else{
+        console.log('OK！');
         filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result_OK.XLSX';
     }
     xlsx_style.writeFile(book_s4_s, path.join(conf.root,'/tables_result',filename_tb_s4));

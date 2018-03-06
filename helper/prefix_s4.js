@@ -5,6 +5,7 @@ const xlsx_style = require('xlsx-style');
 const utils = xlsx.utils; // XLSX.utilsのalias
 const conf = require('../config/config');
 const find_def_key = require('./find_def_key');
+// const find_decimal = require('./find_decimal')
 const async = require('async');
 
 module.exports = (filename_tb,filename_def) =>{
@@ -26,9 +27,14 @@ module.exports = (filename_tb,filename_def) =>{
                     delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:0})].s;
                     if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DATS){
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
-                            book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].z = 'yyyymmdd';
                             // book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 's';
-                            delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            if (book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v === ''){
+                                book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = '19000101';
+                                delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            }else{
+                                book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].z = 'yyyymmdd';
+                                delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            }
                         
                         // console.log(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})]);
                         
@@ -38,6 +44,14 @@ module.exports = (filename_tb,filename_def) =>{
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].z = 'hhmmss';
                             delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                        }
+                    }
+                    else if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC){
+                        // let decimal = find_decimal(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v);
+                        for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
+                            book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 'n';
+                            book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt.replace(',','');
+                            book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt.replace('#','');
                         }
                     }
                     else{
@@ -80,6 +94,14 @@ module.exports = (filename_tb,filename_def) =>{
                         }
                     }
                     if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.TIMS){
+                        for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
+                            book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].w;
+                            book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 's';
+                            delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            // console.log(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})]);
+                        }
+                    }
+                    if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC){
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].w;
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 's';
