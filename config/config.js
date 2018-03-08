@@ -3,6 +3,8 @@ module.exports = {
     extractor_type:{
         DATS:'DATS',
         TIMS:'TIMS',
-        DEC:'DEC'
+        DEC:'DEC',
+        CURR:'CURR',
+        CHAR:'CHAR',
     }
 };

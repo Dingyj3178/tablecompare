@@ -5,7 +5,8 @@ const xlsx_style = require('xlsx-style');
 const utils = xlsx.utils; // XLSX.utilsのalias
 const conf = require('../config/config');
 const find_def_key = require('./find_def_key');
-// const find_decimal = require('./find_decimal')
+// const find_decimal = require('./find_decimal');
+const find_length = require('./find_length');
 const async = require('async');
 
 module.exports = (filename_tb,filename_def) =>{
@@ -46,12 +47,24 @@ module.exports = (filename_tb,filename_def) =>{
                             delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
                         }
                     }
-                    else if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC){
+                    else if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CURR){
                         // let decimal = find_decimal(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v);
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 'n';
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt.replace(',','');
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s.numFmt.replace('#','');
+                        }
+                    }
+                    else if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CHAR && find_length(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === '1'){
+                        // let decimal = find_decimal(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v);
+                        for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
+                            if(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v === 'false'){
+                                book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = ' ';
+                                delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            }else if(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v === 'true'){
+                                book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = 'X';
+                                delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            }
                         }
                     }
                     else{
@@ -101,7 +114,7 @@ module.exports = (filename_tb,filename_def) =>{
                             // console.log(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})]);
                         }
                     }
-                    if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC){
+                    if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CURR){
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].w;
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 's';
