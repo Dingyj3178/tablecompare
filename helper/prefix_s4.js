@@ -65,6 +65,10 @@ module.exports = (filename_tb,filename_def) =>{
                                 book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = 'X';
                                 delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
                             }
+                            else if(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v === ''){
+                                book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = ' ';
+                                delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
+                            }
                         }
                     }
                     else{
