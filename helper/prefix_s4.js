@@ -47,7 +47,7 @@ module.exports = (filename_tb,filename_def) =>{
                             delete book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].s;
                         }
                     }
-                    else if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CURR){
+                    else if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CURR || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.QUAN){
                         // let decimal = find_decimal(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v);
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 'n';
@@ -118,7 +118,7 @@ module.exports = (filename_tb,filename_def) =>{
                             // console.log(book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})]);
                         }
                     }
-                    if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CURR){
+                    if(find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.DEC || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.CURR || find_def_key(sheet_s4_def,sheet_s4[utils.encode_cell({c:c_s4, r:0})].v) === conf.extractor_type.QUAN){
                         for(let r_s4 = decodeRange_s4.s.r+1; r_s4 <= decodeRange_s4.e.r; r_s4++){
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].v = book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].w;
                             book_s4_s.Sheets['Sheet1'][utils.encode_cell({c:c_s4, r:r_s4})].t = 's';

@@ -18,6 +18,7 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
     const decodeRange_s4 = utils.decode_range(sheet_s4['!ref']);
     const decodeRange_hana = utils.decode_range(sheet_hana['!ref']);
     let diff_count = 0;
+    let same_count = 0;
     const column_counter = decodeRange_hana.e.c - decodeRange_s4.e.c;
     if(column_counter <3){
         throw filename_tb_s4 + '項目数が異なるため、比較ファイルを確認してください';
@@ -27,7 +28,7 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
     for(let c_s4 = decodeRange_s4.s.c; c_s4 <= decodeRange_s4.e.c; c_s4++){
         if(sheet_s4[utils.encode_cell({c:c_s4, r:0})].v === sheet_hana[utils.encode_cell({c:c_s4+3, r:0})].v){
             for(let r_s4 = decodeRange_s4.s.r; r_s4 <= decodeRange_s4.e.r; r_s4++){
-                if (sheet_s4[utils.encode_cell({c:c_s4, r:r_s4})].v === sheet_hana[utils.encode_cell({c:c_s4+3, r:r_s4})].v){
+                if (sheet_s4[utils.encode_cell({c:c_s4, r:r_s4})].v.toString() === sheet_hana[utils.encode_cell({c:c_s4+3, r:r_s4})].v.toString()){
                     sheet_s4[utils.encode_cell({c:c_s4, r:r_s4})].s = { fill:{
                         patternType: 'solid',
                         fgColor: { rgb: '00ff72' },
@@ -43,9 +44,14 @@ module.exports = (filename_tb_s4,filename_tb_hana) =>{
                     diff_count = diff_count + 1;
                 }    
             }
+            same_count = same_count + 1;
         }
     }
-    if (diff_count > 0){
+    if (decodeRange_s4.e.c - same_count > 0){
+        console.log(filename_tb_s4 +'に比較されていない項目がある');
+        filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result_NG.XLSX';
+    }
+    else if (diff_count > 0 ){
         console.log(filename_tb_s4 +'に一致しないデータが存在する');
         filename_tb_s4 = filename_tb_s4.replace('.XLSX','')+'_result_NG.XLSX';
     } else{

@@ -6,5 +6,6 @@ module.exports = {
         DEC:'DEC',
         CURR:'CURR',
         CHAR:'CHAR',
+        QUAN:'QUAN',
     }
 };
